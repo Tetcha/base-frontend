@@ -1,6 +1,9 @@
 import type { AppProps } from 'next/app';
 import { NextSeo } from 'next-seo';
+import { ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import theme from 'src/config/MUI/theme';
 
 import '../styles/globals.css';
 
@@ -30,7 +33,9 @@ export default function App({ Component, pageProps }: AppProps) {
 				}}
 			/>
 			<QueryClientProvider client={queryClient}>
-				<Component {...pageProps} />
+				<ThemeProvider theme={theme}>
+					<Component {...pageProps} />
+				</ThemeProvider>
 			</QueryClientProvider>
 		</>
 	);

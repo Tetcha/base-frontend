@@ -27,7 +27,7 @@
 		"no-irregular-whitespace": ["warn"],
 		"no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
 		"no-unused-vars": ["warn", { "vars": "all", "args": "none", "ignoreRestSiblings": true }],
-		"max-len": ["warn", { "code": 100, "tabWidth": 2, "ignoreComments": true, "ignoreUrls": true }],
+		// "max-len": ["warn", { "code": 100, "tabWidth": 2, "ignoreComments": true, "ignoreUrls": true }],
 
 		// react rules
 		"react/jsx-key": ["warn"],

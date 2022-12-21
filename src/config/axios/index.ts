@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
-import { ENV_VARIABLES } from 'constants/env';
+
+import { ENV_VARIABLES } from 'src/constants/env';
 
 const http = axios.create({
 	baseURL: ENV_VARIABLES.BASE_URL,
