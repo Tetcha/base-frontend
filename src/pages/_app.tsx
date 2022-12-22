@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { NextSeo } from 'next-seo';
+import { hello } from '@base/base-utils';
 import { ThemeProvider } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -10,6 +12,11 @@ import '../styles/globals.css';
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+	useEffect(() => {
+		hello();
+		return () => {};
+	}, []);
+
 	return (
 		<>
 			<NextSeo
