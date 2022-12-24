@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import Login from 'src/components/Auth/Login';
 
 export default function LoginPage() {

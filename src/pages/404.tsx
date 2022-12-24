@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import { NotFound } from 'src/components/Error';
 
 interface NotFoundPageProps {}
