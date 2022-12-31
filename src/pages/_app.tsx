@@ -15,7 +15,7 @@ const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
 	useEffect(() => {
-		hello();
+		hello('duc');
 		return () => {};
 	}, []);
 
