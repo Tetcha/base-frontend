@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 
 import { FormWrapper, InputSlider } from 'src/components/Input';
 import { InputSelect } from 'src/components/Input/InputSelect';
+import { InputSelectMulti } from 'src/components/Input/InputSelectMulti';
 import { InputToggles } from 'src/components/Input/InputToggles';
 
 interface TestPageProps {}
@@ -109,6 +110,8 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							disabled={true}
 						/>
 
+						<p className="font-semibold">For single select, label will appear when selected</p>
+
 						<InputSelect
 							label='Select "number" (default value is "2")'
 							defaultValue={'2'}
@@ -121,8 +124,8 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 						/>
 
 						<InputSelect
-							label='Select "Person"'
-							name="Person"
+							label='label="Select Persons provide array of {value, label}"'
+							name="person"
 							options={people.map((person) => ({
 								value: person.id,
 								label: (
@@ -131,6 +134,36 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 										<span>{person.name}</span>
 									</div>
 								),
+							}))}
+						/>
+
+						<p className="font-semibold">
+							For multi select,we need provide name and the name will appear when selected, label
+							only render in optional
+						</p>
+
+						<InputSelectMulti
+							label="Select Persons provide array of {value, label, name}"
+							name="numbers"
+							options={[
+								{ value: '1', label: '1', name: '1' },
+								{ value: '2', label: '2', name: '2' },
+								{ value: '3', label: '3', name: '3' },
+							]}
+						/>
+
+						<InputSelectMulti
+							label="Select Persons provide array of {value, label, name}"
+							name="persons"
+							options={people.map((person) => ({
+								value: person.id,
+								label: (
+									<div className="flex items-center gap-2">
+										<img src={person.avatar} className="w-6 h-6 rounded-full" alt={person.name} />
+										<span>{person.name}</span>
+									</div>
+								),
+								name: person.name,
 							}))}
 						/>
 						<button

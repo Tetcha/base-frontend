@@ -1,12 +1,12 @@
 import * as React from 'react';
 import CommonFieldWrapper from './CommonFieldWrapper';
-import SelectUnstyled, { SelectUnstyledProps } from '@mui/base/SelectUnstyled';
-import { OptionUnstyled } from '@mui/base';
+import MultiSelectUnstyled from '@mui/base/MultiSelectUnstyled';
+import { MultiSelectUnstyledProps, OptionUnstyled } from '@mui/base';
 import { CheckIcon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
 
-interface InputSelectProps extends SelectUnstyledProps<any> {
+interface InputSelectMultiProps extends MultiSelectUnstyledProps<any> {
 	name: string;
 	label?: string;
 	isRequire?: boolean;
@@ -14,16 +14,17 @@ interface InputSelectProps extends SelectUnstyledProps<any> {
 	options?: Array<{
 		value: any;
 		label: React.ReactNode;
+		name: string;
 	}>;
-	isMulti?: boolean;
 }
 
-export const InputSelect = React.forwardRef(function Slider(
-	{ options, name, label, isRequire, direction, isMulti, ...props }: InputSelectProps,
+export const InputSelectMulti = React.forwardRef(function Slider(
+	{ options, name, label, isRequire, direction, ...props }: InputSelectMultiProps,
 	ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
 	const { setValue, register } = useFormContext();
-	const [value, setSelected] = React.useState<any>(null);
+	const [value, setSelected] = React.useState<any[]>([]);
+	const [appearance, setAppearance] = React.useState<string>('');
 
 	React.useEffect(() => {
 		if (name) {
@@ -37,10 +38,18 @@ export const InputSelect = React.forwardRef(function Slider(
 		}
 	}, [value]);
 
+	const handleOnchange = (selectValue: any[]) => {
+		if (options) {
+			setSelected(selectValue);
+			const selectNames = options.filter((option) => selectValue.includes(option.value));
+			setAppearance(selectNames.map((option) => option.name).join(', '));
+		}
+	};
+
 	return (
 		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
-			<SelectUnstyled
-				onChange={(_, selectValue) => setSelected(selectValue)}
+			<MultiSelectUnstyled
+				onChange={(event, selectValue) => handleOnchange(selectValue)}
 				ref={ref}
 				slotProps={{
 					root: {
@@ -49,17 +58,14 @@ export const InputSelect = React.forwardRef(function Slider(
 					},
 					listbox: {
 						className:
-							'absolute z-50 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
+							'absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm',
 					},
 					popper: {
 						className: ' w-full block relative z-10',
 					},
 				}}
-				renderValue={() => {
-					const selected = options?.find((option) => option.value === value);
-					return selected ? selected.label : '';
-				}}
 				{...props}
+				renderValue={() => appearance}
 			>
 				{options ? (
 					options.map((option) => (
@@ -80,7 +86,8 @@ export const InputSelect = React.forwardRef(function Slider(
 						>
 							<div className="flex justify-between">
 								{option.label}
-								{value === option.value ? (
+								{/* Check icon */}
+								{value.includes(option.value) ? (
 									<span
 										className={clsx(
 											'text-indigo-600',
@@ -98,7 +105,7 @@ export const InputSelect = React.forwardRef(function Slider(
 				) : (
 					<></>
 				)}
-			</SelectUnstyled>
+			</MultiSelectUnstyled>
 		</CommonFieldWrapper>
 	);
 });
