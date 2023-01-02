@@ -17,7 +17,7 @@ export const InputSlider = React.forwardRef(function Slider(
 ) {
 	const { setValue, register } = useFormContext();
 
-	const [input, setInput] = React.useState<number | number[]>(0);
+	const [input, setInput] = React.useState<number | number[]>(props.defaultValue || 0);
 
 	React.useEffect(() => {
 		register(props.name);
