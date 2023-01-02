@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import CommonFieldWrapper from './CommonFieldWrapper';
+import CommonFieldWrapper from '../Input/CommonFieldWrapper';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	name: string;
