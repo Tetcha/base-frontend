@@ -2,9 +2,73 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormWrapper, InputSlider } from 'src/components/Input';
+import { InputSelect } from 'src/components/Input/InputSelect';
 import { InputToggles } from 'src/components/Input/InputToggles';
 
 interface TestPageProps {}
+
+const people = [
+	{
+		id: 1,
+		name: 'Wade Cooper',
+		avatar:
+			'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 2,
+		name: 'Arlene Mccoy',
+		avatar:
+			'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 3,
+		name: 'Devon Webb',
+		avatar:
+			'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
+	},
+	{
+		id: 4,
+		name: 'Tom Cook',
+		avatar:
+			'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 5,
+		name: 'Tanya Fox',
+		avatar:
+			'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 6,
+		name: 'Hellen Schmidt',
+		avatar:
+			'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 7,
+		name: 'Caroline Schultz',
+		avatar:
+			'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 8,
+		name: 'Mason Heaney',
+		avatar:
+			'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 9,
+		name: 'Claudie Smitham',
+		avatar:
+			'https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+	{
+		id: 10,
+		name: 'Emil Schaefer',
+		avatar:
+			'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+	},
+];
 
 const TestPage: React.FunctionComponent<TestPageProps> = () => {
 	const methods = useForm();
@@ -43,6 +107,31 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							direction="row"
 							defaultChecked={true}
 							disabled={true}
+						/>
+
+						<InputSelect
+							label='Select "number" (default value is "2")'
+							defaultValue={'2'}
+							name="number"
+							options={[
+								{ value: '1', label: '1' },
+								{ value: '2', label: '2' },
+								{ value: '3', label: '3' },
+							]}
+						/>
+
+						<InputSelect
+							label='Select "Person"'
+							name="Person"
+							options={people.map((person) => ({
+								value: person.id,
+								label: (
+									<div className="flex items-center gap-2">
+										<img src={person.avatar} className="w-6 h-6 rounded-full" alt={person.name} />
+										<span>{person.name}</span>
+									</div>
+								),
+							}))}
 						/>
 						<button
 							type="submit"

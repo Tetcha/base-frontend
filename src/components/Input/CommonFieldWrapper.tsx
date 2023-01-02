@@ -34,7 +34,7 @@ const CommonFieldWrapper: React.FunctionComponent<CommonFieldWrapperProps> = ({
 				{/* && <RedStar /> */}
 			</div>
 
-			<div className="flex-1 mt-1">
+			<div className="relative flex-1 mt-1">
 				{children}
 				{Boolean(errorDetails[name]) && <div className="text-red-500">{errorDetails[name]}</div>}
 			</div>
