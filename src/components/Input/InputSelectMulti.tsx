@@ -1,10 +1,11 @@
 import * as React from 'react';
-import CommonFieldWrapper from './CommonFieldWrapper';
-import MultiSelectUnstyled from '@mui/base/MultiSelectUnstyled';
-import { MultiSelectUnstyledProps, OptionUnstyled } from '@mui/base';
-import { CheckIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
+import { CheckIcon } from '@heroicons/react/20/solid';
+import { MultiSelectUnstyledProps, OptionUnstyled } from '@mui/base';
+import MultiSelectUnstyled from '@mui/base/MultiSelectUnstyled';
+import clsx from 'clsx';
+
+import CommonFieldWrapper from './CommonFieldWrapper';
 
 interface InputSelectMultiProps extends MultiSelectUnstyledProps<any> {
 	name: string;
@@ -23,7 +24,7 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 	ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
 	const { setValue, register } = useFormContext();
-	const [value, setSelected] = React.useState<any[]>([]);
+	const [value, setSelected] = React.useState<any[]>(props.defaultValue || []);
 	const [appearance, setAppearance] = React.useState<string>('');
 
 	React.useEffect(() => {
@@ -41,10 +42,17 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 	const handleOnchange = (selectValue: any[]) => {
 		if (options) {
 			setSelected(selectValue);
-			const selectNames = options.filter((option) => selectValue.includes(option.value));
-			setAppearance(selectNames.map((option) => option.name).join(', '));
 		}
 	};
+
+	React.useEffect(() => {
+		if (!options) {
+			return;
+		}
+
+		const selectNames = options.filter((option) => value.includes(option.value));
+		setAppearance(selectNames.map((option) => option.name).join(', '));
+	}, [value]);
 
 	return (
 		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>

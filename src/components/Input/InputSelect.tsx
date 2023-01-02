@@ -1,10 +1,11 @@
 import * as React from 'react';
-import CommonFieldWrapper from './CommonFieldWrapper';
-import SelectUnstyled, { SelectUnstyledProps } from '@mui/base/SelectUnstyled';
-import { OptionUnstyled } from '@mui/base';
-import { CheckIcon } from '@heroicons/react/20/solid';
-import clsx from 'clsx';
 import { useFormContext } from 'react-hook-form';
+import { CheckIcon } from '@heroicons/react/20/solid';
+import { OptionUnstyled } from '@mui/base';
+import SelectUnstyled, { SelectUnstyledProps } from '@mui/base/SelectUnstyled';
+import clsx from 'clsx';
+
+import CommonFieldWrapper from './CommonFieldWrapper';
 
 interface InputSelectProps extends SelectUnstyledProps<any> {
 	name: string;

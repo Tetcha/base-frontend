@@ -1,8 +1,9 @@
-import clsx from 'clsx';
 import { useState } from 'react';
-import { Switch } from '@headlessui/react';
-import { useFormContext } from 'react-hook-form';
 import * as React from 'react';
+import { useFormContext } from 'react-hook-form';
+import { Switch } from '@headlessui/react';
+import clsx from 'clsx';
+
 import CommonFieldWrapper from './CommonFieldWrapper';
 
 interface InputTogglesProps {

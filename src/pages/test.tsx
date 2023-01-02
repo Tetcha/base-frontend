@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { FormWrapper, InputSlider } from 'src/components/Input';
+import { InputRadioGroup } from 'src/components/Input/InputRadioGroup';
 import { InputSelect } from 'src/components/Input/InputSelect';
 import { InputSelectMulti } from 'src/components/Input/InputSelectMulti';
 import { InputToggles } from 'src/components/Input/InputToggles';
@@ -130,7 +132,11 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 								value: person.id,
 								label: (
 									<div className="flex items-center gap-2">
-										<img src={person.avatar} className="w-6 h-6 rounded-full" alt={person.name} />
+										<LazyLoadImage
+											src={person.avatar}
+											className="w-6 h-6 rounded-full"
+											alt={person.name}
+										/>
 										<span>{person.name}</span>
 									</div>
 								),
@@ -155,16 +161,37 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 						<InputSelectMulti
 							label="Select Persons provide array of {value, label, name}"
 							name="persons"
+							defaultValue={[4]}
 							options={people.map((person) => ({
 								value: person.id,
 								label: (
 									<div className="flex items-center gap-2">
-										<img src={person.avatar} className="w-6 h-6 rounded-full" alt={person.name} />
+										<LazyLoadImage
+											src={person.avatar}
+											className="w-6 h-6 rounded-full"
+											alt={person.name}
+										/>
 										<span>{person.name}</span>
 									</div>
 								),
 								name: person.name,
 							}))}
+						/>
+
+						<InputRadioGroup
+							defaultChecked={'0'}
+							name="gender"
+							label="Đức thua kèo có ghệ 2022 thì phải chung kèo không?"
+							options={[
+								{
+									label: 'Yes',
+									value: '0',
+								},
+								{
+									label: 'Right side but yes',
+									value: '1',
+								},
+							]}
 						/>
 						<button
 							type="submit"
