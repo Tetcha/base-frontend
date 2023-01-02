@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
 import { FormWrapper, InputSlider } from 'src/components/Input';
+import { InputToggles } from 'src/components/Input/InputToggles';
 
 interface TestPageProps {}
 
@@ -17,7 +18,6 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 			<div className="max-w-2xl px-10 py-20 bg-white rounded">
 				<FormWrapper methods={methods}>
 					<form onSubmit={methods.handleSubmit(handleOnSubmit)} className="space-y-5">
-						<InputSlider name="Heat" label="Heat" defaultValue={[1]} valueLabelDisplay={'auto'} />
 						<InputSlider
 							name="Price"
 							label='Price (from "$" to "$$$")'
@@ -26,6 +26,23 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							max={100000000}
 							min={10000}
 							valueLabelDisplay={'auto'}
+						/>
+						<InputSlider
+							direction="row"
+							name="Heat"
+							label="Heat"
+							defaultValue={1}
+							valueLabelDisplay={'auto'}
+						/>
+
+						<InputToggles label="is it?" name="ad" defaultChecked={true} />
+						<InputToggles label="aye?" direction="row" name="aye" defaultChecked={false} />
+						<InputToggles
+							label="Disable"
+							name={'disable'}
+							direction="row"
+							defaultChecked={true}
+							disabled={true}
 						/>
 						<button
 							type="submit"
