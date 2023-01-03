@@ -74,7 +74,13 @@ const people = [
 ];
 
 const TestPage: React.FunctionComponent<TestPageProps> = () => {
-	const methods = useForm();
+	const methods = useForm({
+		defaultValues: {
+			price: [10000, 100000000],
+			number: '2',
+			person: 1,
+		},
+	});
 
 	const handleOnSubmit = async (data: any) => {
 		console.log(data);
@@ -86,7 +92,7 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 				<FormWrapper methods={methods}>
 					<form onSubmit={methods.handleSubmit(handleOnSubmit)} className="space-y-5">
 						<InputSlider
-							name="Price"
+							name="price"
 							label='Price (from "$" to "$$$")'
 							defaultValue={[10000, 100000000]}
 							step={10000}
@@ -116,7 +122,6 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 
 						<InputSelect
 							label='Select "number" (default value is "2")'
-							defaultValue={'2'}
 							name="number"
 							options={[
 								{ value: '1', label: '1' },
