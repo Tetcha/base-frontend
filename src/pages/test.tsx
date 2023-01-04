@@ -73,13 +73,18 @@ const people = [
 	},
 ];
 
+const defaultValues = {
+	price: [15000, 95000000],
+	number: '2',
+	person: 1,
+	persons: [1, 4, 2],
+	gender: '1',
+	heat: 20,
+};
+
 const TestPage: React.FunctionComponent<TestPageProps> = () => {
 	const methods = useForm({
-		defaultValues: {
-			price: [10000, 100000000],
-			number: '2',
-			person: 1,
-		},
+		defaultValues,
 	});
 
 	const handleOnSubmit = async (data: any) => {
@@ -94,19 +99,13 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 						<InputSlider
 							name="price"
 							label='Price (from "$" to "$$$")'
-							defaultValue={[10000, 100000000]}
 							step={10000}
 							max={100000000}
+							defaultValue={defaultValues.price}
 							min={10000}
 							valueLabelDisplay={'auto'}
 						/>
-						<InputSlider
-							direction="row"
-							name="Heat"
-							label="Heat"
-							defaultValue={1}
-							valueLabelDisplay={'auto'}
-						/>
+						<InputSlider direction="row" name="heat" label="Heat" valueLabelDisplay={'auto'} />
 
 						<InputToggles label="is it?" name="ad" defaultChecked={true} />
 						<InputToggles label="aye?" direction="row" name="aye" defaultChecked={false} />
@@ -166,7 +165,6 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 						<InputSelectMulti
 							label="Select Persons provide array of {value, label, name}"
 							name="persons"
-							defaultValue={[4]}
 							options={people.map((person) => ({
 								value: person.id,
 								label: (
@@ -184,9 +182,8 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 						/>
 
 						<InputRadioGroup
-							defaultChecked={'0'}
 							name="gender"
-							label="Đức thua kèo có ghệ 2022 thì phải chung kèo không?"
+							label="Đức thua kèo có ghệ 2022 thì phải chung kèo không? (default value is '1')"
 							options={[
 								{
 									label: 'Yes',

@@ -31,7 +31,6 @@ export const InputSelect = React.forwardRef(function Slider(
 			if (formValue) {
 				setSelected(formValue);
 			}
-			console.log('WTF', formValue);
 		}
 	}, []);
 
