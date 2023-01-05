@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import { FormWrapper, InputSlider } from 'src/components/Input';
+import { InputCheckboxGroup } from 'src/components/Input/InputCheckBoxGroup';
 import { InputRadioGroup } from 'src/components/Input/InputRadioGroup';
 import { InputSelect } from 'src/components/Input/InputSelect';
 import { InputSelectMulti } from 'src/components/Input/InputSelectMulti';
@@ -78,6 +79,7 @@ const defaultValues = {
 	number: '2',
 	person: 1,
 	persons: [1, 4, 2],
+	save: ['no'],
 	gender: '1',
 	heat: 20,
 };
@@ -193,6 +195,14 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 									label: 'Right side but yes',
 									value: '1',
 								},
+							]}
+						/>
+						<InputCheckboxGroup
+							name="save"
+							label="Save me in this site"
+							options={[
+								{ label: 'Yes', value: 'yes' },
+								{ label: 'Unbloody save', value: 'no' },
 							]}
 						/>
 						<button
