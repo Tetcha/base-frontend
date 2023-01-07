@@ -1,13 +1,9 @@
 // import { RedStar } from '../../../packages/store';
+import { PropsWithChildren } from 'react';
+import { CommonFieldProps } from 'src/interface/form';
 import { useStoreApi } from '../../store';
 
-interface CommonFieldWrapperProps {
-	children: React.ReactNode;
-	label?: string;
-	name: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-}
+interface CommonFieldWrapperProps extends PropsWithChildren, CommonFieldProps {}
 
 const CommonFieldWrapper: React.FunctionComponent<CommonFieldWrapperProps> = ({
 	children,

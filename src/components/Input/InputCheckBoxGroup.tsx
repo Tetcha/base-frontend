@@ -4,35 +4,32 @@ import clsx from 'clsx';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
 import { InputCheckBox } from './InputCheckBox';
+import { CommonFieldProps, Direction, Option } from 'src/interface/form';
 
-interface InputCheckboxGroupProps {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-	optionsDirection?: 'row' | 'column';
+interface InputCheckboxGroupProps<Label, Value, Key> {
+	commonField: CommonFieldProps<Key>;
+	optionsDirection?: Direction;
 	className?: string;
-	options?: Array<{ label: any; value: any }>;
+	options?: Option<Label, Value>[];
 	defaultChecked?: any[];
 }
 
-export const InputCheckboxGroup: React.FunctionComponent<InputCheckboxGroupProps> = ({
-	name,
-	label,
-	isRequire,
-	direction,
+export function InputCheckboxGroup<Value, Key = any>({
+	commonField,
 	optionsDirection = 'row',
 	className,
 	defaultChecked,
 	options,
-}) => {
+}: InputCheckboxGroupProps<string, Value, Key>) {
+	const { name } = commonField;
+
 	const { register } = useFormContext();
 
 	React.useEffect(() => {
 		register(name);
 	}, [name]);
 	return (
-		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
+		<CommonFieldWrapper {...commonField}>
 			<div
 				className={clsx(
 					'flex flex-wrap gap-2',
@@ -59,4 +56,4 @@ export const InputCheckboxGroup: React.FunctionComponent<InputCheckboxGroupProps
 			</div>
 		</CommonFieldWrapper>
 	);
-};
+}

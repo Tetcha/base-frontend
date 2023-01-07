@@ -4,28 +4,24 @@ import clsx from 'clsx';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
 import { InputRadio } from './InputRadio';
+import { CommonFieldProps, Direction, Option } from 'src/interface/form';
 
-interface InputRadioGroupProps {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-	optionsDirection?: 'row' | 'column';
+interface InputRadioGroupProps<Label, Value, Key> {
+	optionsDirection?: Direction;
 	className?: string;
-	options?: Array<{ label: any; value: any }>;
+	options?: Option<Label, Value>[];
 	defaultChecked?: any;
+	commonField: CommonFieldProps<Key>;
 }
 
-export const InputRadioGroup: React.FunctionComponent<InputRadioGroupProps> = ({
-	name,
-	label,
-	isRequire,
-	direction,
+export function InputRadioGroup<Value, Key = any>({
 	optionsDirection = 'row',
 	className,
 	defaultChecked,
 	options,
-}) => {
+	commonField,
+}: InputRadioGroupProps<string, Value, Key>) {
+	const { name } = commonField;
 	const { register } = useFormContext();
 
 	React.useEffect(() => {
@@ -33,7 +29,7 @@ export const InputRadioGroup: React.FunctionComponent<InputRadioGroupProps> = ({
 	}, [name]);
 
 	return (
-		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
+		<CommonFieldWrapper {...commonField}>
 			<div
 				className={clsx(
 					'flex flex-wrap gap-2',
@@ -60,4 +56,4 @@ export const InputRadioGroup: React.FunctionComponent<InputRadioGroupProps> = ({
 			</div>
 		</CommonFieldWrapper>
 	);
-};
+}

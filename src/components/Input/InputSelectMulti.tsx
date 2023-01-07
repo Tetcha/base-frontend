@@ -6,26 +6,23 @@ import MultiSelectUnstyled from '@mui/base/MultiSelectUnstyled';
 import clsx from 'clsx';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
+import { CommonFieldProps, OptionExtended } from 'src/interface/form';
 
-interface InputSelectMultiProps extends MultiSelectUnstyledProps<any> {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-	options?: Array<{
-		value: any;
-		label: React.ReactNode;
-		name: string;
-	}>;
+interface InputSelectMultiProps<Label, Value> extends MultiSelectUnstyledProps<any> {
+	commonField: CommonFieldProps;
+	options?: OptionExtended<Label, Value>[];
 }
 
-export const InputSelectMulti = React.forwardRef(function Slider(
-	{ options, name, label, isRequire, direction, ...props }: InputSelectMultiProps,
-	ref: React.ForwardedRef<HTMLButtonElement>,
-) {
+export function InputSelectMulti<Label, Value>({
+	options,
+	commonField,
+	...props
+}: InputSelectMultiProps<Label, Value>) {
 	const { setValue, control, getValues } = useFormContext();
-	const [value, setSelected] = React.useState<any[]>(props.defaultValue || []);
+	const [value, setSelected] = React.useState<Value[]>(props.defaultValue || []);
 	const [appearance, setAppearance] = React.useState<string>('');
+
+	const { name } = commonField;
 
 	React.useEffect(() => {
 		if (name) {
@@ -58,7 +55,7 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 	}, [value]);
 
 	return (
-		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
+		<CommonFieldWrapper {...commonField}>
 			<Controller
 				name={name}
 				control={control}
@@ -66,7 +63,6 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 				render={() => (
 					<MultiSelectUnstyled
 						onChange={(event, selectValue) => handleOnchange(selectValue)}
-						ref={ref}
 						slotProps={{
 							root: {
 								className:
@@ -86,7 +82,7 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 						{options ? (
 							options.map((option) => (
 								<OptionUnstyled
-									key={option.value}
+									key={`${option.value}`}
 									value={option.value}
 									slotProps={{
 										root: {
@@ -101,7 +97,7 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 									}}
 								>
 									<div className="flex justify-between">
-										{option.label}
+										<>{option.label}</>
 										{/* Check icon */}
 										{value.includes(option.value) ? (
 											<span
@@ -126,4 +122,4 @@ export const InputSelectMulti = React.forwardRef(function Slider(
 			/>
 		</CommonFieldWrapper>
 	);
-});
+}

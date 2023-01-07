@@ -2,12 +2,17 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
-import { FormWrapper, InputSlider } from 'src/components/Input';
-import { InputCheckboxGroup } from 'src/components/Input/InputCheckBoxGroup';
-import { InputRadioGroup } from 'src/components/Input/InputRadioGroup';
-import { InputSelect } from 'src/components/Input/InputSelect';
-import { InputSelectMulti } from 'src/components/Input/InputSelectMulti';
-import { InputToggles } from 'src/components/Input/InputToggles';
+import {
+	FormWrapper,
+	InputCheckboxGroup,
+	InputRadioGroup,
+	InputSelectMulti,
+	InputSlider,
+	InputToggles,
+	InputSelect,
+} from 'src/components/Input';
+
+import { Option, OptionExtended } from 'src/interface/form';
 
 interface TestPageProps {}
 
@@ -74,6 +79,16 @@ const people = [
 	},
 ];
 
+interface TestFormSubmit {
+	price: number[];
+	number: string;
+	person: number;
+	persons: number[];
+	save: string[];
+	gender: string;
+	heat: number;
+}
+
 const defaultValues = {
 	price: [15000, 95000000],
 	number: '2',
@@ -85,11 +100,11 @@ const defaultValues = {
 };
 
 const TestPage: React.FunctionComponent<TestPageProps> = () => {
-	const methods = useForm({
+	const methods = useForm<TestFormSubmit>({
 		defaultValues,
 	});
 
-	const handleOnSubmit = async (data: any) => {
+	const handleOnSubmit = async (data: TestFormSubmit) => {
 		console.log(data);
 	};
 
@@ -99,31 +114,57 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 				<FormWrapper methods={methods}>
 					<form onSubmit={methods.handleSubmit(handleOnSubmit)} className="space-y-5">
 						<InputSlider
-							name="price"
-							label='Price (from "$" to "$$$")'
+							commonField={{
+								name: 'price',
+								label: 'Price (from "$" to "$$$")',
+							}}
 							step={10000}
 							max={100000000}
 							defaultValue={defaultValues.price}
 							min={10000}
 							valueLabelDisplay={'auto'}
 						/>
-						<InputSlider direction="row" name="heat" label="Heat" valueLabelDisplay={'auto'} />
+						<InputSlider
+							commonField={{
+								direction: 'row',
+								name: 'heat',
+								label: 'Heat',
+							}}
+							valueLabelDisplay={'auto'}
+						/>
 
-						<InputToggles label="is it?" name="ad" defaultChecked={true} />
-						<InputToggles label="aye?" direction="row" name="aye" defaultChecked={false} />
 						<InputToggles
-							label="Disable"
-							name={'disable'}
-							direction="row"
+							commonField={{
+								label: 'is it?',
+								name: 'ad',
+							}}
+							defaultChecked={true}
+						/>
+						<InputToggles
+							commonField={{
+								label: 'aye?',
+								direction: 'row',
+								name: 'aye',
+							}}
+							defaultChecked={false}
+						/>
+						<InputToggles
+							commonField={{
+								label: 'Disable',
+								name: 'disable',
+								direction: 'row',
+							}}
 							defaultChecked={true}
 							disabled={true}
 						/>
 
 						<p className="font-semibold">For single select, label will appear when selected</p>
 
-						<InputSelect
-							label='Select "number" (default value is "2")'
-							name="number"
+						<InputSelect<string, string>
+							commonField={{
+								label: 'Select "number" (default value is "2")',
+								name: 'number',
+							}}
 							options={[
 								{ value: '1', label: '1' },
 								{ value: '2', label: '2' },
@@ -131,22 +172,26 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							]}
 						/>
 
-						<InputSelect
-							label='label="Select Persons provide array of {value, label}"'
-							name="person"
-							options={people.map((person) => ({
-								value: person.id,
-								label: (
-									<div className="flex items-center gap-2">
-										<LazyLoadImage
-											src={person.avatar}
-											className="w-6 h-6 rounded-full"
-											alt={person.name}
-										/>
-										<span>{person.name}</span>
-									</div>
-								),
-							}))}
+						<InputSelect<number, React.ReactNode>
+							commonField={{
+								label: 'label="Select Persons provide array of {value, label}"',
+								name: 'person',
+							}}
+							options={
+								people.map((person) => ({
+									value: person.id,
+									label: (
+										<div className="flex items-center gap-2">
+											<LazyLoadImage
+												src={person.avatar}
+												className="w-6 h-6 rounded-full"
+												alt={person.name}
+											/>
+											<span>{person.name}</span>
+										</div>
+									),
+								})) as Option[]
+							}
 						/>
 
 						<p className="font-semibold">
@@ -154,9 +199,11 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							only render in optional
 						</p>
 
-						<InputSelectMulti
-							label="Select Persons provide array of {value, label, name}"
-							name="numbers"
+						<InputSelectMulti<string, string>
+							commonField={{
+								label: 'Select Persons provide array of {value, label, name}',
+								name: 'numbers',
+							}}
 							options={[
 								{ value: '1', label: '1', name: '1' },
 								{ value: '2', label: '2', name: '2' },
@@ -164,28 +211,34 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							]}
 						/>
 
-						<InputSelectMulti
-							label="Select Persons provide array of {value, label, name}"
-							name="persons"
-							options={people.map((person) => ({
-								value: person.id,
-								label: (
-									<div className="flex items-center gap-2">
-										<LazyLoadImage
-											src={person.avatar}
-											className="w-6 h-6 rounded-full"
-											alt={person.name}
-										/>
-										<span>{person.name}</span>
-									</div>
-								),
-								name: person.name,
-							}))}
+						<InputSelectMulti<string, React.ReactNode>
+							commonField={{
+								label: 'Select Persons provide array of {value, label, name}',
+								name: 'persons',
+							}}
+							options={
+								people.map((person) => ({
+									value: person.id,
+									label: (
+										<div className="flex items-center gap-2">
+											<LazyLoadImage
+												src={person.avatar}
+												className="w-6 h-6 rounded-full"
+												alt={person.name}
+											/>
+											<span>{person.name}</span>
+										</div>
+									),
+									name: person.name,
+								})) as OptionExtended[]
+							}
 						/>
 
-						<InputRadioGroup
-							name="gender"
-							label="Đức thua kèo có ghệ 2022 thì phải chung kèo không? (default value is '1')"
+						<InputRadioGroup<string>
+							commonField={{
+								name: 'gender',
+								label: "Đức thua kèo có ghệ 2022 thì phải chung kèo không? (default value is '1')",
+							}}
 							options={[
 								{
 									label: 'Yes',
@@ -197,14 +250,17 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 								},
 							]}
 						/>
-						<InputCheckboxGroup
-							name="save"
-							label="Save me in this site"
+						<InputCheckboxGroup<string>
+							commonField={{
+								name: 'save',
+								label: 'Save me in this site',
+							}}
 							options={[
 								{ label: 'Yes', value: 'yes' },
 								{ label: 'Unbloody save', value: 'no' },
 							]}
 						/>
+
 						<button
 							type="submit"
 							className="flex justify-center px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-600 hover:to-blue-700"

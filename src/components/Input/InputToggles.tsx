@@ -5,27 +5,23 @@ import { Switch } from '@headlessui/react';
 import clsx from 'clsx';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
+import { CommonFieldProps } from 'src/interface/form';
 
 interface InputTogglesProps {
 	defaultChecked?: boolean | undefined;
 	onChange?(checked: boolean): void;
-	name?: string | undefined;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
+	commonField: CommonFieldProps;
 	disabled?: boolean;
 }
 
 export const InputToggles: React.FunctionComponent<InputTogglesProps> = ({
 	defaultChecked,
 	onChange,
-	name,
-	label,
-	isRequire,
-	direction,
+	commonField,
 	disabled = false,
 }) => {
 	const { setValue, register } = useFormContext();
+	const { name } = commonField;
 
 	const [enabled, setEnabled] = useState<boolean>(defaultChecked || false);
 
@@ -54,7 +50,7 @@ export const InputToggles: React.FunctionComponent<InputTogglesProps> = ({
 	}, []);
 
 	return (
-		<CommonFieldWrapper name={name || ''} label={label} isRequire={isRequire} direction={direction}>
+		<CommonFieldWrapper {...commonField}>
 			<Switch
 				onChange={handleChange}
 				disabled={disabled}

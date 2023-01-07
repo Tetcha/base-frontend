@@ -6,24 +6,21 @@ import SelectUnstyled, { SelectUnstyledProps } from '@mui/base/SelectUnstyled';
 import clsx from 'clsx';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
+import { CommonFieldProps, Option } from 'src/interface/form';
 
-interface InputSelectProps extends SelectUnstyledProps<any> {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-	options?: Array<{
-		value: any;
-		label: React.ReactNode;
-	}>;
+interface InputSelectProps<Label, Value> extends SelectUnstyledProps<any> {
+	commonField: CommonFieldProps;
+	options?: Option<Label, Value>[];
 }
 
-export const InputSelect = React.forwardRef(function Slider(
-	{ options, name, label, isRequire, direction, ...props }: InputSelectProps,
-	ref: React.ForwardedRef<HTMLButtonElement>,
-) {
+export function InputSelect<Label, Value>({
+	options,
+	commonField,
+	...props
+}: InputSelectProps<Label, Value>) {
 	const { getValues, setValue, control } = useFormContext();
-	const [value, setSelected] = React.useState<any>(null);
+	const [value, setSelected] = React.useState<Value | null>(null);
+	const { name } = commonField;
 
 	React.useEffect(() => {
 		if (name) {
@@ -41,7 +38,7 @@ export const InputSelect = React.forwardRef(function Slider(
 	}, [value]);
 
 	return (
-		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
+		<CommonFieldWrapper name="">
 			<Controller
 				name={name}
 				control={control}
@@ -49,7 +46,6 @@ export const InputSelect = React.forwardRef(function Slider(
 				render={() => (
 					<SelectUnstyled
 						onChange={(_, selectValue) => setSelected(selectValue)}
-						ref={ref}
 						slotProps={{
 							root: {
 								className:
@@ -65,14 +61,14 @@ export const InputSelect = React.forwardRef(function Slider(
 						}}
 						renderValue={() => {
 							const selected = options?.find((option) => option.value === value);
-							return selected ? selected.label : '';
+							return selected ? <>{selected.label}</> : '';
 						}}
 						{...props}
 					>
 						{options ? (
 							options.map((option) => (
 								<OptionUnstyled
-									key={option.value}
+									key={`${option.value}`}
 									value={option.value}
 									slotProps={{
 										root: {
@@ -87,7 +83,7 @@ export const InputSelect = React.forwardRef(function Slider(
 									}}
 								>
 									<div className="flex justify-between">
-										{option.label}
+										<>{option.label}</>
 										{value === option.value ? (
 											<span
 												className={clsx(
@@ -111,4 +107,4 @@ export const InputSelect = React.forwardRef(function Slider(
 			/>
 		</CommonFieldWrapper>
 	);
-});
+}

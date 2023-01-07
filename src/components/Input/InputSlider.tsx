@@ -3,43 +3,33 @@ import { useFormContext } from 'react-hook-form';
 import SliderUnstyled, { SliderUnstyledProps } from '@mui/base/SliderUnstyled';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
+import { CommonFieldProps } from 'src/interface/form';
 
 interface InputSliderProps extends SliderUnstyledProps {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
+	commonField: CommonFieldProps;
 }
 
-export const InputSlider = React.forwardRef(function Slider(
-	props: InputSliderProps,
-	ref: React.ForwardedRef<HTMLSpanElement>,
-) {
+export function InputSlider({ commonField, ...props }: InputSliderProps) {
 	const { setValue, register } = useFormContext();
+	const { name } = commonField;
 
 	const [input, setInput] = React.useState<number | number[]>(props.defaultValue || 0);
 
 	React.useEffect(() => {
-		register(props.name);
+		register(name);
 	}, []);
 
 	React.useEffect(() => {
-		setValue(props.name, input);
+		setValue(name, input);
 	}, [input]);
 
 	return (
-		<CommonFieldWrapper
-			name={props.name}
-			label={props.label}
-			isRequire={props.isRequire}
-			direction={props.direction}
-		>
+		<CommonFieldWrapper {...commonField}>
 			<SliderUnstyled
 				{...props}
 				onChange={(_, newValue) => {
 					setInput(newValue);
 				}}
-				ref={ref}
 				slotProps={{
 					valueLabel: { className: 'absolute text-sm -bottom-5 font-medium' },
 					thumb: {
@@ -55,4 +45,4 @@ export const InputSlider = React.forwardRef(function Slider(
 			/>
 		</CommonFieldWrapper>
 	);
-});
+}
