@@ -2,9 +2,10 @@ import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 
+import { CommonFieldProps, Direction, Option } from 'src/interface/form';
+
 import CommonFieldWrapper from './CommonFieldWrapper';
 import { InputCheckBox } from './InputCheckBox';
-import { CommonFieldProps, Direction, Option } from 'src/interface/form';
 
 interface InputCheckboxGroupProps<Label, Value, Key> {
 	commonField: CommonFieldProps<Key>;

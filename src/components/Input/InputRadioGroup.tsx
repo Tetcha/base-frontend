@@ -2,9 +2,10 @@ import * as React from 'react';
 import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 
+import { CommonFieldProps, Direction, Option } from 'src/interface/form';
+
 import CommonFieldWrapper from './CommonFieldWrapper';
 import { InputRadio } from './InputRadio';
-import { CommonFieldProps, Direction, Option } from 'src/interface/form';
 
 interface InputRadioGroupProps<Label, Value, Key> {
 	optionsDirection?: Direction;

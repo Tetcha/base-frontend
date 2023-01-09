@@ -1,18 +1,16 @@
 import * as React from 'react';
 import { useForm } from 'react-hook-form';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import {
 	FormWrapper,
 	InputCheckboxGroup,
 	InputRadioGroup,
-	InputSelectMulti,
-	InputSlider,
-	InputToggles,
+	InputRangeSlider,
 	InputSelect,
+	InputSingleSlider,
+	InputToggles,
 } from 'src/components/Input';
-
-import { Option, OptionExtended } from 'src/interface/form';
+import { Option } from 'src/interface/form';
 
 interface TestPageProps {}
 
@@ -80,7 +78,7 @@ const people = [
 ];
 
 interface TestFormSubmit {
-	price: number[];
+	price: [number, number];
 	number: string;
 	person: number;
 	persons: number[];
@@ -89,8 +87,8 @@ interface TestFormSubmit {
 	heat: number;
 }
 
-const defaultValues = {
-	price: [15000, 95000000],
+const defaultValues: TestFormSubmit = {
+	price: [50000, 70000],
 	number: '2',
 	person: 1,
 	persons: [1, 4, 2],
@@ -113,24 +111,20 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 			<div className="max-w-2xl px-10 py-20 bg-white rounded">
 				<FormWrapper methods={methods}>
 					<form onSubmit={methods.handleSubmit(handleOnSubmit)} className="space-y-5">
-						<InputSlider
+						<InputRangeSlider
 							commonField={{
 								name: 'price',
 								label: 'Price (from "$" to "$$$")',
 							}}
-							step={10000}
-							max={100000000}
+							max={100000}
 							defaultValue={defaultValues.price}
-							min={10000}
-							valueLabelDisplay={'auto'}
+							min={1000}
 						/>
-						<InputSlider
-							commonField={{
-								direction: 'row',
-								name: 'heat',
-								label: 'Heat',
-							}}
-							valueLabelDisplay={'auto'}
+						<InputSingleSlider
+							max={100}
+							commonField={{ name: 'heat' }}
+							defaultValue={defaultValues.heat}
+							min={1}
 						/>
 
 						<InputToggles
@@ -160,36 +154,28 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 
 						<p className="font-semibold">For single select, label will appear when selected</p>
 
-						<InputSelect<string, string>
+						<InputSelect
 							commonField={{
 								label: 'Select "number" (default value is "2")',
 								name: 'number',
 							}}
 							options={[
-								{ value: '1', label: '1' },
-								{ value: '2', label: '2' },
-								{ value: '3', label: '3' },
+								{ value: '1', label: 'mot' },
+								{ value: '2', label: 'hai' },
+								{ value: '3', label: 'ba' },
 							]}
 						/>
 
-						<InputSelect<number, React.ReactNode>
+						<InputSelect
 							commonField={{
 								label: 'label="Select Persons provide array of {value, label}"',
 								name: 'person',
 							}}
+							showSearch={true}
 							options={
 								people.map((person) => ({
 									value: person.id,
-									label: (
-										<div className="flex items-center gap-2">
-											<LazyLoadImage
-												src={person.avatar}
-												className="w-6 h-6 rounded-full"
-												alt={person.name}
-											/>
-											<span>{person.name}</span>
-										</div>
-									),
+									label: person.name,
 								})) as Option[]
 							}
 						/>
@@ -199,38 +185,18 @@ const TestPage: React.FunctionComponent<TestPageProps> = () => {
 							only render in optional
 						</p>
 
-						<InputSelectMulti<string, string>
+						<InputSelect
 							commonField={{
-								label: 'Select Persons provide array of {value, label, name}',
-								name: 'numbers',
-							}}
-							options={[
-								{ value: '1', label: '1', name: '1' },
-								{ value: '2', label: '2', name: '2' },
-								{ value: '3', label: '3', name: '3' },
-							]}
-						/>
-
-						<InputSelectMulti<string, React.ReactNode>
-							commonField={{
-								label: 'Select Persons provide array of {value, label, name}',
+								label: 'label="Select Persons provide array of {value, label}"',
 								name: 'persons',
 							}}
+							mode="tags"
+							showSearch={true}
 							options={
 								people.map((person) => ({
 									value: person.id,
-									label: (
-										<div className="flex items-center gap-2">
-											<LazyLoadImage
-												src={person.avatar}
-												className="w-6 h-6 rounded-full"
-												alt={person.name}
-											/>
-											<span>{person.name}</span>
-										</div>
-									),
-									name: person.name,
-								})) as OptionExtended[]
+									label: person.name,
+								})) as Option[]
 							}
 						/>
 

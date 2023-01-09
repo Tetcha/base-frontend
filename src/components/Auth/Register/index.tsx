@@ -51,14 +51,17 @@ const Register: FunctionComponent<RegisterProps> = () => {
 				<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
 					<div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
 						<form className="space-y-6" onSubmit={methods.handleSubmit(handleOnSubmit)}>
-							<TextField label="Email" name="email" />
-							<TextField label="Name" name="name" />
-							<TextField label="Password" name="password" type="password" />
-							<TextField label="Confirm Password" name="confirmPassword" type="password" />
+							<TextField commonField={{ label: 'Email', name: 'email' }} />
+							<TextField commonField={{ label: 'Name', name: 'name' }} />
+							<TextField commonField={{ label: 'Password', name: 'password' }} type="password" />
+							<TextField
+								commonField={{ label: 'Confirm Password', name: 'confirmPassword' }}
+								type="password"
+							/>
 							<div className="flex flex-col items-center space-y-4">
 								<button
 									type="submit"
-									className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-600 hover:to-blue-700 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+									className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-600 hover:to-blue-700 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 								>
 									Register
 								</button>

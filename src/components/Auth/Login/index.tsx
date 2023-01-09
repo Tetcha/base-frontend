@@ -44,8 +44,8 @@ const Login: FunctionComponent<LoginProps> = () => {
 				<div className="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
 					<FormWrapper methods={methods}>
 						<form onSubmit={methods.handleSubmit(handleOnSubmit)} className="space-y-5">
-							<TextField label="Email Address" name="email" type="email" />
-							<TextField label="Password" name="password" type="password" />
+							<TextField commonField={{ label: 'Email Address', name: 'email' }} type="email" />
+							<TextField commonField={{ label: 'Password', name: 'password' }} type="password" />
 							<FormErrorMessage />
 							<div className="flex flex-col items-end justify-center mt-1">
 								<div className="text-sm">

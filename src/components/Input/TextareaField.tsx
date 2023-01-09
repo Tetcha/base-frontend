@@ -1,36 +1,22 @@
 import * as React from 'react';
-import { useFormContext } from 'react-hook-form';
-import { TextareaAutosize, TextareaAutosizeProps } from '@mui/base';
-import clsx from 'clsx';
+import { Controller, useFormContext } from 'react-hook-form';
+import TextArea, { TextAreaProps } from 'antd/lib/input/TextArea';
+
+import { CommonFieldProps } from 'src/interface/form';
 
 import CommonFieldWrapper from './CommonFieldWrapper';
 
-interface TextareaFieldProps extends TextareaAutosizeProps {
-	name: string;
-	label?: string;
-	isRequire?: boolean;
-	direction?: 'row' | 'column';
-	className?: string;
+interface TextareaFieldProps extends TextAreaProps {
+	commonField: CommonFieldProps;
 }
 
-export const TextareaField = React.forwardRef(function TextareaField(
-	{ name, label, isRequire, direction, className, ...props }: TextareaFieldProps,
-	ref: React.Ref<HTMLTextAreaElement>,
-) {
-	const { register } = useFormContext();
+export const TextareaField = ({ commonField, ...props }: TextareaFieldProps) => {
+	const { control } = useFormContext();
+	const { name } = commonField;
 
 	return (
-		<CommonFieldWrapper name={name} label={label} isRequire={isRequire} direction={direction}>
-			<TextareaAutosize
-				{...props}
-				{...register(name)}
-				ref={ref}
-				minRows={6}
-				className={clsx(
-					'block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
-					className,
-				)}
-			/>
+		<CommonFieldWrapper {...commonField}>
+			<Controller name={name} control={control} render={() => <TextArea {...props} />} />
 		</CommonFieldWrapper>
 	);
-});
+};
