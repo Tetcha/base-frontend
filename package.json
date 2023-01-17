@@ -13,7 +13,6 @@
 		"fix": "yarn format:fix & yarn lint:fix"
 	},
 	"dependencies": {
-		"@base/base-utils": "1.0.0",
 		"@emotion/react": "^11.10.5",
 		"@emotion/styled": "^11.10.5",
 		"@headlessui/react": "^1.7.7",
